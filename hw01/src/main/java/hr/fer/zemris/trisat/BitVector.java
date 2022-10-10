@@ -1,5 +1,6 @@
 package hr.fer.zemris.trisat;
 
+import java.beans.BeanInfo;
 import java.util.Random;
 
 public class BitVector {
@@ -24,6 +25,14 @@ public class BitVector {
         bits = new boolean[numberOfBits];
     }
 
+    public BitVector(int n, int numberOfBits){
+        this.numberOfBits = numberOfBits;
+        bits = new boolean[numberOfBits];
+        for (int i = 0; i < numberOfBits; i++) {
+            bits[i] = (n & (1 << i)) != 0;
+        }
+
+    }
     public boolean get(int index) {
         if (index < 0 || index >= numberOfBits) {
             throw new IndexOutOfBoundsException();

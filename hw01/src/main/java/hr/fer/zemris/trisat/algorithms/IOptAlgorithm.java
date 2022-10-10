@@ -1,4 +1,6 @@
-package hr.fer.zemris.trisat;
+package hr.fer.zemris.trisat.algorithms;
+
+import hr.fer.zemris.trisat.BitVector;
 
 import java.util.Optional;
 
