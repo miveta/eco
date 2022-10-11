@@ -29,6 +29,18 @@ public class SATFormula {
         return clauses[index];
     }
 
+    public int getNumberOfSatisfiedClauses(BitVector assignment) {
+        int numberOfSatisfiedClauses = 0;
+
+        for (Clause clause : clauses) {
+            if (clause.isSatisfied(assignment)) {
+                numberOfSatisfiedClauses++;
+            }
+        }
+
+        return numberOfSatisfiedClauses;
+    }
+
     public boolean isSatisfied(BitVector assignment) {
         for (Clause clause : clauses) {
             if (!clause.isSatisfied(assignment)) {
@@ -54,7 +66,7 @@ public class SATFormula {
 
         int index = 0;
 
-        while(rows.get(index).startsWith("c")) {
+        while (rows.get(index).startsWith("c")) {
             index++;
         }
 
