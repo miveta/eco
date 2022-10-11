@@ -55,6 +55,8 @@ public class BitVector {
     }
 
     public MutableBitVector copy() {
+        boolean [] bits = new boolean[this.numberOfBits];
+        System.arraycopy(this.bits, 0, bits, 0, this.numberOfBits);
         return new MutableBitVector(bits);
     }
 }

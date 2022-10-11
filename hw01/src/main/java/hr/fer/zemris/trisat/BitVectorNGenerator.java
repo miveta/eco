@@ -9,24 +9,25 @@ public class BitVectorNGenerator implements Iterable<MutableBitVector> {
     private int numberOfVariables;
 
     public BitVectorNGenerator(BitVector assignment) {
-        this.assignment = assignment;
+        this.assignment = assignment.copy();
     }
+
+
 
     // Vraća lijeni iterator koji na svaki next() računa sljedećeg susjeda
     @Override
     public Iterator<MutableBitVector> iterator() {
-        return new Iterator<MutableBitVector>() {
-            private MutableBitVector current = BitVectorNGenerator.this.assignment.copy();
+        return new Iterator<>() {
             private int index = 0;
 
             @Override
             public boolean hasNext() {
-                return index < current.getSize();
+                return index < BitVectorNGenerator.this.assignment.getSize();
             }
 
             @Override
             public MutableBitVector next() {
-                MutableBitVector next = current.copy();
+                MutableBitVector next = BitVectorNGenerator.this.assignment.copy();
                 next.set(index, !next.get(index));
                 index++;
                 return next;
