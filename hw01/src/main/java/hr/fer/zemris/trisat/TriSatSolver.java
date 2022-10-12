@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public class TriSatSolver {
     public static void main(String[] args) {
-        if(args.length == 0){
+        if (args.length == 0) {
             testAllCombinations();
             return;
         }
-        if(args.length != 2) {
+        if (args.length != 2) {
             System.out.println("Invalid number of arguments");
             return;
         }
@@ -24,17 +24,17 @@ public class TriSatSolver {
         SATFormula formula;
         int algorithmType;
 
-        try{
+        try {
             formula = SATFormula.parse(formulaPath);
-        } catch (IOException ex){
+        } catch (IOException ex) {
             System.out.println("Unable to parse SAT formula with exception: ");
             System.out.println(ex.getMessage());
             return;
         }
 
-        try{
+        try {
             algorithmType = Integer.parseInt(algorithm);
-        } catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             System.out.println("Unable to parse algorithm type with exception: ");
             System.out.println(ex.getMessage());
             return;
@@ -67,7 +67,7 @@ public class TriSatSolver {
         System.out.println("Execution time: " + (endTime - startTime) + "ms");
     }
 
-    public static void testAllCombinations(){
+    public static void testAllCombinations() {
         String path_uf20_01 = "hw01/src/main/resources/01-3sat/uf20-01.cnf";
         String path_uf20_010 = "hw01/src/main/resources/01-3sat/uf20-010.cnf";
         String path_uf20_0100 = "hw01/src/main/resources/01-3sat/uf20-0100.cnf";
@@ -89,7 +89,7 @@ public class TriSatSolver {
 
         for (Map.Entry<String, String> alg : algs.entrySet()) {
             for (int path_idx = 0; path_idx < paths.length; path_idx++) {
-                if(path_idx > 3 && alg.getKey().equals("1")) continue;
+                if (path_idx > 3 && alg.getKey().equals("1")) continue;
 
                 String path = paths[path_idx];
 
@@ -101,41 +101,5 @@ public class TriSatSolver {
                 System.out.println();
             }
         }
-    }
-    public static void main2(String[] args) throws IOException {
-        String path_uf20_01 = "hw01/src/main/resources/01-3sat/uf20-01.cnf";
-        String path_uf20_010 = "hw01/src/main/resources/01-3sat/uf20-010.cnf";
-        String path_uf20_0100 = "hw01/src/main/resources/01-3sat/uf20-0100.cnf";
-        String path_uf20_01000 = "hw01/src/main/resources/01-3sat/uf20-01000.cnf";
-        String path_uf50_01 = "hw01/src/main/resources/01-3sat/uf50-01.cnf";
-        String path_uf50_010 = "hw01/src/main/resources/01-3sat/uf50-010.cnf";
-        String path_uf50_0100 = "hw01/src/main/resources/01-3sat/uf50-0100.cnf";
-        String path_uf50_01000 = "hw01/src/main/resources/01-3sat/uf50-01000.cnf";
-
-        SATFormula formula = SATFormula.parse(path_uf20_0100);
-
-
-        // time algorithm execution
-        long startTime = System.currentTimeMillis();
-
-        IOptAlgorithm algorithm = new IteratedLocalSearch(formula);
-        Optional<BitVector> solution = algorithm.solve(Optional.empty());
-
-        if (solution.isPresent()) {
-            System.out.println("Solution found: " + solution.get());
-        }
-
-        while(solution.isEmpty()){
-            System.out.println("No solution found");
-
-            solution = algorithm.solve(Optional.empty());
-
-            if (solution.isPresent()) {
-                System.out.println("Solution found: " + solution.get());
-            }
-        }
-
-        long endTime = System.currentTimeMillis();
-        System.out.println("Execution time: " + (endTime - startTime) + "ms");
     }
 }
