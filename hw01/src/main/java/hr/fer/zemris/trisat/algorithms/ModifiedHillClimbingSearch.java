@@ -9,6 +9,8 @@ public class ModifiedHillClimbingSearch implements IOptAlgorithm {
     private int maxIterations = 100000;
     private SATFormulaStats stats;
 
+    public static final int numberOfBest = 2;
+
     public ModifiedHillClimbingSearch(SATFormula formula) {
         this.formula = formula;
         this.stats = new SATFormulaStats(formula);
@@ -39,10 +41,13 @@ public class ModifiedHillClimbingSearch implements IOptAlgorithm {
                 return Optional.of(assignment);
             }
 
+            stats.setAssignment(assignment, true); // update stats
+
             List<BitVector> betterNeighbours = getMaxGoodnessNeighbours(assignment); // get best neighbours
 
             assignment = betterNeighbours.get(rand.nextInt(betterNeighbours.size())).copy(); // get random neighbour
-            currentGoodness = goodness(assignment);
+            currentGoodness = goodness(assignment); // asses goodness of new assignment
+
             iteration++;
         }
 
@@ -52,26 +57,29 @@ public class ModifiedHillClimbingSearch implements IOptAlgorithm {
 
     private double goodness(BitVector assignment) {
         stats.setAssignment(assignment, false);
-        return formula.getNumberOfSatisfiedClauses(assignment) + stats.getPercentageBonus();
+        return stats.getNumberOfSatisfied() + stats.getPercentageBonus();
     }
 
     private List<BitVector> getMaxGoodnessNeighbours(BitVector assignment) {
-        double bestGoodness = goodness(assignment);
+        Map<Double, BitVector> neighboursGoodnessMap = new TreeMap<>(Collections.reverseOrder());
 
-        List<BitVector> bestNeighbours = new ArrayList<>();
-        Iterator<MutableBitVector> neighbours = new BitVectorNGenerator(assignment).iterator();
-
-        while (neighbours.hasNext()) {
-            BitVector neighbour = neighbours.next();
+        for (BitVector neighbour : new BitVectorNGenerator(assignment)) {
             double neighbourGoodness = goodness(neighbour);
 
-            if (neighbourGoodness > bestGoodness) {
-                bestGoodness = neighbourGoodness;
-                bestNeighbours.clear();
-                bestNeighbours.add(neighbour);
-            } else if (Math.abs(neighbourGoodness - bestGoodness) < 1e-3) {
-                bestNeighbours.add(neighbour);
+            neighboursGoodnessMap.put(neighbourGoodness, neighbour);
+        }
+
+        List<BitVector> bestNeighbours = new ArrayList<>();
+        int i = 0;
+
+        for (Map.Entry<Double, BitVector> entry : neighboursGoodnessMap.entrySet()) {
+            if (i >= numberOfBest) {
+                break;
             }
+
+            bestNeighbours.add(entry.getValue());
+            i++;
+
         }
 
         return bestNeighbours;

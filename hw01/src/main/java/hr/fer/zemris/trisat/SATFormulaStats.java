@@ -2,8 +2,6 @@ package hr.fer.zemris.trisat;
 
 public class SATFormulaStats {
     private SATFormula formula;
-
-    public static final int numberOfBest = 2;
     public static final double percentageConstantUp = 0.01;
     public static final double percentageConstantDown = 0.1;
     public static final double percentageUnitAmount = 50;
@@ -21,17 +19,17 @@ public class SATFormulaStats {
     // analizira se predano rješenje i pamte svi relevantni pokazatelji
 // primjerice, ažurira elemente polja post[...] ako drugi argument to dozvoli; računa Z; ...
     public void setAssignment(BitVector assignment, boolean updatePercentages) {
+        numberOfSatisfied = 0;
+
         if (updatePercentages) {
             for (int i = 0; i < formula.getNumberOfClauses(); i++) {
                 if (formula.getClause(i).isSatisfied(assignment)) {
-                    percentages[i] = (1 - percentages[i]) * percentageConstantUp;
+                    percentages[i] += (1 - percentages[i]) * percentageConstantUp;
                     numberOfSatisfied++;
                 } else {
-                    percentages[i] = (0 - percentages[i]) * percentageConstantDown;
+                    percentages[i] += (0 - percentages[i]) * percentageConstantDown;
                 }
             }
-
-
         } else {
             percentageBonus = 0;
 
@@ -63,7 +61,7 @@ public class SATFormulaStats {
     }
 
     // vraća temeljem onoga što je setAssignment zapamtio: procjena postotka za klauzulu
-// to su elementi polja post[...]
+    // to su elementi polja post[...]
     public double getPercentage(int index) {
         if (index < 0 || index >= formula.getNumberOfClauses()) {
             throw new IndexOutOfBoundsException();
