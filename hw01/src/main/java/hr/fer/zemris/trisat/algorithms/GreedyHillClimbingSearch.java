@@ -55,15 +55,7 @@ public class GreedyHillClimbingSearch implements IOptAlgorithm {
     }
 
     private int goodness(BitVector assignment) {
-        int numberOfSatisfiedClauses = 0;
-
-        for (int i = 0; i < formula.getNumberOfClauses(); i++) {
-            if (formula.getClause(i).isSatisfied(assignment)) {
-                numberOfSatisfiedClauses++;
-            }
-        }
-
-        return numberOfSatisfiedClauses;
+        return formula.getNumberOfSatisfiedClauses(assignment);
     }
 
     private List<BitVector> getMaxGoodnessNeighbours(BitVector assignment) {
