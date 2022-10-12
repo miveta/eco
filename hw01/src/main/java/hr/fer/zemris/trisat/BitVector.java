@@ -25,14 +25,14 @@ public class BitVector {
         bits = new boolean[numberOfBits];
     }
 
-    public BitVector(int n, int numberOfBits){
+    public BitVector(int n, int numberOfBits) {
         this.numberOfBits = numberOfBits;
         bits = new boolean[numberOfBits];
         for (int i = 0; i < numberOfBits; i++) {
             bits[i] = (n & (1 << i)) != 0;
         }
-
     }
+
     public boolean get(int index) {
         if (index < 0 || index >= numberOfBits) {
             throw new IndexOutOfBoundsException();
@@ -55,7 +55,7 @@ public class BitVector {
     }
 
     public MutableBitVector copy() {
-        boolean [] bits = new boolean[this.numberOfBits];
+        boolean[] bits = new boolean[this.numberOfBits];
         System.arraycopy(this.bits, 0, bits, 0, this.numberOfBits);
         return new MutableBitVector(bits);
     }

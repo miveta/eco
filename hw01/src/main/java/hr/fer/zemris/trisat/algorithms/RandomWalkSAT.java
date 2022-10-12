@@ -5,11 +5,11 @@ import hr.fer.zemris.trisat.*;
 import java.util.*;
 
 public class RandomWalkSAT implements IOptAlgorithm {
-    private int maxIterations = 50;
-    private int maxFlips = 1000;
-    private double prob = 0.2;
+    private static int maxIterations = 50;
+    private static int maxFlips = 1000;
+    private static double prob = 0.2;
 
-    private SATFormula formula;
+    private final SATFormula formula;
 
     public RandomWalkSAT(SATFormula formula) {
         this.formula = formula;
@@ -25,17 +25,17 @@ public class RandomWalkSAT implements IOptAlgorithm {
         int iteration = 0;
 
         while (iteration < maxIterations) {
-            // T = random dodjela varijabli
+            // T = randomly assign inital state
             assignment = new MutableBitVector(rand, formula.getNumberOfVariables());
-            currentGoodness = goodness(assignment);
 
+            currentGoodness = goodness(assignment);
             if (currentGoodness == numberOfClauses) {
                 return Optional.of(assignment);
             }
 
             for (int i = 0; i < maxFlips; i++) {
-                // random odaberi jednu nezadovoljenu klauzulu
-                List<Clause> unsatisfiedClauses = getUnsatisfied(assignment);
+                // randomly choose one unsatisfied clause
+                List<Clause> unsatisfiedClauses = formula.getUnsatisfied(assignment);
                 Clause unsatisfiedClause = unsatisfiedClauses.get(rand.nextInt(unsatisfiedClauses.size()));
 
 
@@ -50,14 +50,12 @@ public class RandomWalkSAT implements IOptAlgorithm {
                 }
 
                 currentGoodness = goodness(assignment);
-
                 if (currentGoodness == numberOfClauses) {
                     return Optional.of(assignment);
                 }
             }
             iteration++;
         }
-
 
         return Optional.empty();
     }
@@ -82,24 +80,12 @@ public class RandomWalkSAT implements IOptAlgorithm {
             }
         }
 
-        assignment.set(bestLiteral - 1, !assignment.get(bestLiteral - 1));
+        MutableBitVector bestAssignment = assignment.copy();
+        bestAssignment.set(bestLiteral - 1, !assignment.get(bestLiteral - 1));
 
-        return assignment;
+        return bestAssignment;
     }
 
-
-    private List<Clause> getUnsatisfied(BitVector assignment) {
-        List<Clause> unsatisfied = new ArrayList<>();
-
-        for (int i = 0; i < formula.getNumberOfClauses(); i++) {
-            Clause clause = formula.getClause(i);
-            if (!clause.isSatisfied(assignment)) {
-                unsatisfied.add(clause);
-            }
-        }
-
-        return unsatisfied;
-    }
 
     private int goodness(BitVector assignment) {
         return formula.getNumberOfSatisfiedClauses(assignment);

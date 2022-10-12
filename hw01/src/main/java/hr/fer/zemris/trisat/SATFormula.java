@@ -3,6 +3,7 @@ package hr.fer.zemris.trisat;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SATFormula {
@@ -39,6 +40,19 @@ public class SATFormula {
         }
 
         return numberOfSatisfiedClauses;
+    }
+
+    public List<Clause> getUnsatisfied(BitVector assignment) {
+        List<Clause> unsatisfied = new ArrayList<>();
+
+        for (int i = 0; i < getNumberOfClauses(); i++) {
+            Clause clause = getClause(i);
+            if (!clause.isSatisfied(assignment)) {
+                unsatisfied.add(clause);
+            }
+        }
+
+        return unsatisfied;
     }
 
     public boolean isSatisfied(BitVector assignment) {

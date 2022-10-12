@@ -9,12 +9,22 @@ import java.util.*;
 
 public class GreedyHillClimbingSearch implements IOptAlgorithm {
     private SATFormula formula;
-    private int maxIterations;
+    private int maxIterations = 100000;
 
+    private boolean verbose = true;
 
-    public GreedyHillClimbingSearch(SATFormula formula, int maxIterations) {
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
+
+    public GreedyHillClimbingSearch(SATFormula formula) {
+        this.formula = formula;
+    }
+
+    public GreedyHillClimbingSearch(SATFormula formula, int maxIterations, boolean verbose) {
         this.formula = formula;
         this.maxIterations = maxIterations;
+        this.verbose = verbose;
     }
 
 
@@ -41,7 +51,7 @@ public class GreedyHillClimbingSearch implements IOptAlgorithm {
             List<BitVector> betterNeighbours = getMaxGoodnessNeighbours(assignment); // get best neighbours
 
             if (betterNeighbours.isEmpty()) { // no better neighbours
-                System.out.println("We've reached a local optimum with goodness = " + currentGoodness); // reached local optimum, fail
+                if(verbose) System.out.println("We've reached a local optimum with goodness = " + currentGoodness); // reached local optimum, fail
                 return Optional.empty();
             }
 
@@ -50,7 +60,7 @@ public class GreedyHillClimbingSearch implements IOptAlgorithm {
             iteration++;
         }
 
-        System.out.println("No solution found, best goodness = " + currentGoodness);
+        if (verbose) System.out.println("No solution found, best goodness = " + currentGoodness);
         return Optional.empty(); // no solution found
     }
 

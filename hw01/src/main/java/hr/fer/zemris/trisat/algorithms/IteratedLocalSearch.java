@@ -21,7 +21,7 @@ public class IteratedLocalSearch implements IOptAlgorithm {
     public Optional<BitVector> solve(Optional<BitVector> initial) {
         int iteration = 0;
 
-        IOptAlgorithm algorithm = new GreedyHillClimbingSearch(this.formula, this.maxFlips);
+        IOptAlgorithm algorithm = new GreedyHillClimbingSearch(this.formula, this.maxFlips, false);
         MutableBitVector assignment = new MutableBitVector(formula.getNumberOfVariables());
 
         while (iteration < maxIterations) {

@@ -18,7 +18,7 @@ public class GSAT implements IOptAlgorithm{
     public Optional<BitVector> solve(Optional<BitVector> initial) {
         int iteration = 0;
 
-        IOptAlgorithm algorithm = new GreedyHillClimbingSearch(this.formula, this.maxFlips);
+        IOptAlgorithm algorithm = new GreedyHillClimbingSearch(this.formula, this.maxFlips, false);
 
         while (iteration < maxIterations) {
             Optional<BitVector> solution = algorithm.solve(Optional.empty());

@@ -5,7 +5,7 @@ import hr.fer.zemris.trisat.*;
 import java.util.*;
 
 public class ModifiedHillClimbingSearch implements IOptAlgorithm {
-    private SATFormula formula;
+    private final SATFormula formula;
     private int maxIterations = 100000;
     private SATFormulaStats stats;
 
@@ -19,7 +19,6 @@ public class ModifiedHillClimbingSearch implements IOptAlgorithm {
         this.maxIterations = maxIterations;
         this.stats = new SATFormulaStats(formula);
     }
-
 
     @Override
     public Optional<BitVector> solve(Optional<BitVector> initial) {
