@@ -16,13 +16,13 @@ public class Main {
         String path_uf50_0100 = "hw01/src/main/resources/01-3sat/uf50-0100.cnf";
         String path_uf50_01000 = "hw01/src/main/resources/01-3sat/uf50-01000.cnf";
 
-        SATFormula formula = SATFormula.parse(path_uf50_01000);
+        SATFormula formula = SATFormula.parse(path_uf20_0100);
 
 
         // time algorithm execution
         long startTime = System.currentTimeMillis();
 
-        IOptAlgorithm algorithm = new RandomWalkSAT(formula);
+        IOptAlgorithm algorithm = new IteratedLocalSearch(formula);
         Optional<BitVector> solution = algorithm.solve(Optional.empty());
 
         if (solution.isPresent()) {
