@@ -70,6 +70,14 @@ public class Jednostavno {
         System.out.println("Minimum found at:");
         printMatrix(point);
         System.out.println("Value: " + function.getValue(point));
+
+
+        function = function2;
+        point = NumOptAlgorithms.gradientDescent(function, startingPoint, 200000);
+
+        System.out.println("Minimum found at:");
+        printMatrix(point);
+        System.out.println("Value: " + function.getValue(point));
     }
 
     private static void printMatrix(Matrix matrix) {
