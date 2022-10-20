@@ -11,6 +11,7 @@ public class Prijenosna {
     public static void main(String[] args) throws IOException {
         TransferFunction system = TransferFunction.parseFromFile("src/main/resources/prijenosna.txt");
 
+        Matrix startingPoint = new Matrix(new double[][]{{7}, {-3}, {2}, {1}, {3}, {3}});
         Matrix point = NumOptAlgorithms.gradientDescent(system, null, 200000);
 
         System.out.println("Minimum found at:");

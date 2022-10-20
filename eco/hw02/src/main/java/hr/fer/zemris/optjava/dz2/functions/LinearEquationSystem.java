@@ -69,9 +69,8 @@ public class LinearEquationSystem implements IFunction {
         Matrix diff = coefficients.times(vector).minus(constants.transpose());
 
         // grad MSE = X^T * (y_hat - y_true)
-        //Matrix gradient = coefficients.transpose().times(coefficients).inverse().times(coefficients.transpose()).times(diff);
 
         double numberOfSamples = coefficients.getRowDimension();
-        return coefficients.transpose().times(diff).times(2/numberOfSamples);
+        return coefficients.transpose().times(diff).times(1/numberOfSamples);
     }
 }
