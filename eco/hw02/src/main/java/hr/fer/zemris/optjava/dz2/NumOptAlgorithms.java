@@ -106,9 +106,9 @@ public class NumOptAlgorithms {
             Matrix x1 = x.plus(d.times(lambda));
             Matrix g1 = function.getGradient(x1);
             // g1_T * d gives a dot product - couldn't find it in Jama Matrix
-            double derivation = g1.transpose().times(d).det();
+            double derivative = g1.transpose().times(d).det();
 
-            if (derivation > 0 || Math.abs(derivation) < 1e-6) {
+            if (derivative > 0 || Math.abs(derivative) < 1e-6) {
                 break;
             } else {
                 lambda *= 2;
