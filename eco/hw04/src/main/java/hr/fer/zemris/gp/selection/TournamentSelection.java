@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TournamentSelection implements ISelection {
-    /*
-    * 7-torunament selection
-    * */
-
     int tournamentSize = 7;
 
 
@@ -20,7 +16,7 @@ public class TournamentSelection implements ISelection {
         List<Instance> tournament = population.getRandomInstances(tournamentSize);
 
         for (Instance instance : tournament) {
-            if (best == null || instance.getFitness() > best.getFitness()) {
+            if (best == null || instance.getFitness() < best.getFitness()) {
                 best = instance;
             }
         }

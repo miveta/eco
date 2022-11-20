@@ -6,6 +6,7 @@ import hr.fer.zemris.gp.population.node.NodeTerminal;
 import hr.fer.zemris.gp.population.node.NodeValue;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Population {
@@ -29,6 +30,18 @@ public class Population {
 
     public List<Instance> getInstances() {
         return instances;
+    }
+
+    public List<Instance> getBestInstances(int count){
+        instances.sort(Comparator.comparingDouble(Instance::getFitness));
+
+        count = Math.min(count, instances.size());
+        List<Instance> bestInstances = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            bestInstances.add(instances.get(i));
+        }
+
+        return bestInstances;
     }
 
     public List<Instance> getRandomInstances(int count) {

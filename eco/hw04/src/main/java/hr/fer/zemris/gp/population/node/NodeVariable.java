@@ -15,7 +15,7 @@ public class NodeVariable extends NodeTerminal{
 
     @Override
     public double getTerminalValue() {
-        return 0;
+        return this.value;
     }
 
     public void setTerminalValue(double value) {

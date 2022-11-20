@@ -29,15 +29,22 @@ public class Node {
 
     public double evaluate() {
         if (value.isTerminal()) {
-            return value.getTerminalValue();
+            double val = value.getTerminalValue();
+            return val;
         }
 
         NodeOperator operator = (NodeOperator) value;
 
         if (operator.isUnary()) {
-            return operator.calculate(left.evaluate(), 0);
+            double l = left.evaluate();
+            double val = operator.calculate(l, 0);
+            return val;
         } else {
-            return operator.calculate(left.evaluate(), right.evaluate());
+
+            double l = left.evaluate();
+            double r = right.evaluate();
+            double val = operator.calculate(l, r);
+            return val;
         }
     }
 

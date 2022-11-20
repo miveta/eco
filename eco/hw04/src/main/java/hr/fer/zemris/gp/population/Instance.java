@@ -57,6 +57,10 @@ public class Instance {
     }
 
     public void setVariable(String variableName, double value) {
+        if(inOrder.isEmpty()){
+            inOrder();
+        }
+
         for (Node node : inOrder) {
             if (node.getValue().isVariable() && node.toString().equals(variableName)) {
                 node.setTerminalValue(value);

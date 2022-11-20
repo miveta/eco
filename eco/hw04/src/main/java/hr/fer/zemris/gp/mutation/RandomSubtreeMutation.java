@@ -1,5 +1,6 @@
 package hr.fer.zemris.gp.mutation;
 
+import hr.fer.zemris.gp.RandomGeneration;
 import hr.fer.zemris.gp.population.Instance;
 import hr.fer.zemris.gp.population.RampedHalfAndHalf;
 import hr.fer.zemris.gp.population.node.Node;
@@ -9,12 +10,15 @@ import hr.fer.zemris.gp.population.node.NodeTerminal;
 import java.util.List;
 
 public class RandomSubtreeMutation implements IMutation {
-    List<NodeTerminal> terminals;
-    List<NodeOperator> operators;
 
-    public RandomSubtreeMutation(List<NodeTerminal> terminals, List<NodeOperator> operators) {
-        this.terminals = terminals;
-        this.operators = operators;
+    RandomGeneration randomGeneration;
+
+    public RandomSubtreeMutation(List<NodeOperator> operators, List<NodeTerminal> terminals, Double min, Double max, Double constProbabilty) {
+        this.randomGeneration = new RandomGeneration(operators, terminals, min, max, constProbabilty);
+    }
+
+    public RandomSubtreeMutation(List<NodeOperator> operators, List<NodeTerminal> terminals) {
+        this.randomGeneration = new RandomGeneration(operators, terminals);
     }
 
     @Override
@@ -25,7 +29,7 @@ public class RandomSubtreeMutation implements IMutation {
         int maxDepth = node.getDepth();
         int newDepth = (int) (Math.random() * maxDepth);
 
-        Node newNode = generateRandomNode(newDepth);
+        Node newNode = randomGeneration.generateRandomNode(true, newDepth);
 
         if (node.getParent() == null) {
             mutatedInstance.setRoot(newNode);
@@ -38,9 +42,5 @@ public class RandomSubtreeMutation implements IMutation {
         }
 
         return mutatedInstance;
-    }
-
-    private Node generateRandomNode(int depth) {
-        return RampedHalfAndHalf.generateRandomNode(true, depth, operators, terminals);
     }
 }

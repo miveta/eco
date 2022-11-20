@@ -20,12 +20,15 @@ public class MSEFitness implements IFitness {
                 instance.setVariable("x" + j, x[i][j]);
             }
 
-            sum += Math.pow(y[i] - instance.evaluate(), 2);
+            double yTrue = y[i];
+            double eval = instance.evaluate();
+            sum += Math.pow(yTrue - eval, 2);
         }
 
 
         double fitness = sum / x.length;
         instance.setFitness(fitness);
+
         return fitness;
     }
 }

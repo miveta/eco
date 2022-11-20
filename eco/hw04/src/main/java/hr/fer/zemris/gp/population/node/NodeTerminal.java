@@ -7,6 +7,12 @@ public class NodeTerminal extends NodeValue{
         this.value = value;
     }
 
+    public NodeTerminal(double min, double max) {
+        double val = Math.random() * (max - min) + min;
+        double scale = Math.pow(10, 2);
+        this.value = Math.round(val * scale) / scale;
+    }
+
     @Override
     public boolean isTerminal() {
         return true;
