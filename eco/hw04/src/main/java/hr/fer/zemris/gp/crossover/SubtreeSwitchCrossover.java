@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SubtreeSwitchCrossover implements ICrossover {
 
-    int MAX_DEPTH = 7;
+    int MAX_DEPTH = 5;
     int MAX_NODES = 100;
 
     final static boolean RETURN_BOTH_PARENTS = true;

@@ -51,8 +51,9 @@ public class Main {
         Function2 function2 = new Function2();
         Function3 function3 = new Function3();
 
+        AbstractFunction function = function3;
 
-        task(function3, false);
+        task(function, true);
     }
 
 
